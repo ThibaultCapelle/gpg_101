@@ -167,10 +167,18 @@ If you are on Windows and have installed GNU4WIN (see above), then you can simpl
 
 ## On all platforms using the command line tool gpg
 
-This command line tool is already installed natively in basically every Linux distribution, and is installed on Windows with the installation of Gnu4Win. On MacOS, it can be installed with homebrew (see above).
+This command line tool is already installed natively in basically every Linux distribution, and is installed on Windows with the installation of Gnu4Win. On MacOS, it can be installed with homebrew (see above). You can use it to bypass any of the mail system assumption, and therefore transfer things via not only any mail systems, but also other messaging apps, while being certain that it is end to end encrypted.
 
 Here is a cheat sheet for the commands you can enter with it:
 
-| Function     | Command      | Arguments|
-| ------------- | ```consolefoo@bar:~$ brew install gnupg``` | |
+| Function     | Command      | Note|
+| generate a public/private key pair | ```gpg full-generate-key``` | |
+| list all public keys | ```gpg --list-keys``` | you can see the signature of the key, the level of trust under brackets, the validity f the key, and the name and mail addresses|
+| list all private keys | ```gpg --list-secret-keys``` | you can see the signature of the key, the level of trust under brackets, the validity f the key, and the name and mail addresses|
+| send a key to a keyserver | ```gpg --send-keys [key_id]``` | replace ```[key_id]``` with the fingerprint of the key you want to send. Default to keys.openpgp.org, but this can be changed with the --keyserver option|
+| get the fingerprint of a key | ```gpg --fingerprint [mail]``` | replace ```[mail]``` with the mail address of the key you want to investigate |
+| search for a public key on a server | ```gpg --search-keys [mail]``` | replace ```[mail]``` with the mail address of the person you want to communicate to. It will return the fingerprint of the found key(s) |
+| Receive a key from a keyserver | ```gpg --receive-keys [key_id]``` | replace ```[key_id]``` with the fingerprint of the key you want to receive, that you would tipycally have found with the ```gpg --search-keys [mail]```command above |
+| Encrypt a file with GPG | ```gpg --encrypt --recipient [mail] --sign --armor [filename]``` | replace ```[mail]``` with the mail of a person you have the public key of, and ```[filename]``` with the file you want to encrypt. This will create another file named ```filename.asc```which is a text file containing the encrypted data.|
+| Decrypt a file with GPG | ```gpg [filename]``` | replace ```[filename]``` with the file you want to decrypt. This will create another file that is the decrypted file.|
 
