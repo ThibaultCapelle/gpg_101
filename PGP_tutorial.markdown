@@ -130,16 +130,16 @@ Once you have a set up thunderbird installation with your mail server, open it a
 
 <center>
 <table>
-    <tr><img src="assets/img/thunderbird_2.png" alt="drawing" width="800"/><br>
+    <tr><img src="assets/img/thunderbird_2.png" alt="drawing" width="400"/><br>
     Right click on your mail address on the left, then click on "Settings" <br>
     </tr>
-    <tr><img src="assets/img/thunderbird_3.png" alt="drawing" width="400"/><br>
+    <tr><img src="assets/img/thunderbird_3.png" alt="drawing" width="800"/><br>
     In the "End to End encryption" section, click on "OpenPGP Key Manager"
     </tr>
-    <tr><img src="assets/img/thunderbird_4.png" alt="drawing" width="800"/>
+    <tr><img src="assets/img/thunderbird_4.png" alt="drawing" width="400"/>
     Click on Generate->New Key Pair
     </tr>
-    <tr><img src="assets/img/thunderbird_5.png" alt="drawing" width="800"/><br>
+    <tr><img src="assets/img/thunderbird_5.png" alt="drawing" width="400"/><br>
     After the key generation, click on Keyserver->Publish if you want anyone to be able to find your public key. Then you can find enother person public key with Keyserver-Discover Keys Online. Remember to enter the full mail address associated with the key you are looking for in the search field. Alternatively, you can use File->Import Public Key from File and File->Export Public Key to File functions to share your public key to a smaller audience.
     </tr>
     <tr><img src="assets/img/thunderbird_6.png" alt="drawing" width="800"/><br>
