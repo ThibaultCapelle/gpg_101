@@ -118,5 +118,41 @@ This will open the PGP key manager Kleopatra.
     <tr><img src="assets/img/kleopatra_8.png" alt="drawing" width="400"/><br>
     After importing the key, certify it by right click->certify. Verify the fingerprint with the person you are talking to, either physically or with secure channels, for example using Signal.
     </tr>
+    <tr><img src="assets/img/kleopatra_10.png" alt="drawing" width="800"/><br>
+    Open a new mail, and write the mail address of the person you want to write to in the "To" field. Click on the GpgOL option "Secure" and you should see the two options "Sign" and "Encrypt" squared in black, meaning that they are activated. Write your mail (remember to use a vague subject or no subect at all) and then hit "send". That's it ! You can then check on your webmail to see what the server actually receives, which should be only encrypted data. Attachements are also encrypted, if you used any.
+    </tr>
+</table>
+</center>
+
+## All platforms with Mozilla Thunderbird
+
+Once you have a set up thunderbird installation with your mail server, open it and do the following:
+
+<center>
+<table>
+    <tr><img src="assets/img/thunderbird_2.png" alt="drawing" width="800"/><br>
+    Right click on your mail address on the left, then click on "Settings" <br>
+    </tr>
+    <tr><img src="assets/img/thunderbird_3.png" alt="drawing" width="400"/><br>
+    In the "End to End encryption" section, click on "OpenPGP Key Manager"
+    </tr>
+    <tr><img src="assets/img/thunderbird_4.png" alt="drawing" width="800"/>
+    Click on Generate->New Key Pair
+    </tr>
+    <tr><img src="assets/img/thunderbird_5.png" alt="drawing" width="800"/><br>
+    After the key generation, click on Keyserver->Publish if you want anyone to be able to find your public key. Then you can find enother person public key with Keyserver-Discover Keys Online. Remember to enter the full mail address associated with the key you are looking for in the search field. Alternatively, you can use File->Import Public Key from File and File->Export Public Key to File functions to share your public key to a smaller audience.
+    </tr>
+    <tr><img src="assets/img/thunderbird_6.png" alt="drawing" width="800"/><br>
+    Go back to Settings, then select your key as the default key for your mail address
+    </tr>
+    <tr><img src="assets/img/thunderbird_7.png" alt="drawing" width="800"/><br>
+    Open a new mail, and write the mail address of the person you want to write to in the "To" field. You should see appearing the mention "OpenPGP end-to-end-encryption is possible", and you can then click on "Encrypt". You can also click on the Encrypt button next to send to have the same effect. Write your mail (remember to use a vague subject or no subect at all) and then hit "send". That's it ! You can then check on your webmail to see what the server actually receives, which should be only encrypted data. Attachements are also encrypted, if you used any.
+    </tr>
+    <tr><img src="assets/img/thunderbird_8.png" alt="drawing" width="400"/><br>
+    We need now to activate a master password to encrypt the keys (and also the mails on your computer at rest) by going to Settings->Thunderbird Settings
+    </tr>
+    <tr><img src="assets/img/thunderbird_9.png" alt="drawing" width="800"/><br>
+    Then click on "Privacy and Security"->"Use a primary password" and set up a strong passphrase<br>
+    </tr>
 </table>
 </center>
