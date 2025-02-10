@@ -130,7 +130,7 @@ Once you have a set up thunderbird installation with your mail server, open it a
 
 <center>
 <table>
-    <tr><img src="assets/img/thunderbird_2.png" alt="drawing" width="400"/><br>
+    <tr><img src="assets/img/thunderbird_2.png" alt="drawing" width="250"/><br>
     Right click on your mail address on the left, then click on "Settings" <br>
     </tr>
     <tr><img src="assets/img/thunderbird_3.png" alt="drawing" width="800"/><br>
@@ -156,3 +156,21 @@ Once you have a set up thunderbird installation with your mail server, open it a
     </tr>
 </table>
 </center>
+
+### Encrypting and decrypting files with GPG, regardless of the fact that you use email to transfer them
+
+## Using Windows and GNU4Win
+
+If you are on Windows and have installed GNU4WIN (see above), then you can simply open the file explorer, right click on a file and see the options "sign and encrypt" and "More GpgEx options" to generate an encrypted file with a public key you previously stored with Kleopatra, or to decrypt it with your private key.
+
+<img src="assets/img/gpgol_encrypt.png" alt="drawing" width="350"/>
+
+## On all platforms using the command line tool gpg
+
+This command line tool is already installed natively in basically every Linux distribution, and is installed on Windows with the installation of Gnu4Win. On MacOS, it can be installed with homebrew (see above).
+
+Here is a cheat sheet for the commands you can enter with it:
+
+| Function     | Command      | Arguments|
+| ------------- | ```consolefoo@bar:~$ brew install gnupg``` | |
+
