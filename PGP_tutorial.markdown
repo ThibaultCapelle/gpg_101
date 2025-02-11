@@ -5,7 +5,7 @@ date:   2025-02-08 19:50:01 +0100
 categories: jekyll update
 numbersections: true
 ---
-
+{:toc}
 Here is a small tutorial for getting started with this protocol named Pretty Goog Privacy (PGP), an assymetric cryptographic tool that allows to have end to end encrypted mails despite using very mainstream services like gmail, outlook, etc. You will find several names around, like GPG, PGP, OpenPGP. I will use them interchangeably as they basically refer to the same thing.
 
 
