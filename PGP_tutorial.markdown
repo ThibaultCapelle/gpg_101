@@ -6,17 +6,6 @@ categories: jekyll update
 numbersections: true
 ---
 
-
-    - [Sending end to end encrypted mails](#sending-end-to-end-encrypted-mails)
-- [Using a web client, instead of a web server](#using-a-web-client-instead-of-a-web-server)
-  - [Windows with Microsoft Outlook and GNU4Win](#windows-with-microsoft-outlook-and-gnu4win)
-  - [All platforms with Mozilla Thunderbird](#all-platforms-with-mozilla-thunderbird)
-    - [Encrypting and decrypting files with GPG, regardless of the fact that you use email to transfer them](#encrypting-and-decrypting-files-with-gpg-regardless-of-the-fact-that-you-use-email-to-transfer-them)
-  - [Using Windows and GNU4Win](#using-windows-and-gnu4win)
-  - [On all platforms using the command line tool gpg](#on-all-platforms-using-the-command-line-tool-gpg)
-  - [Sign the public key of someone](#sign-the-public-key-of-someone)
-
-
 Here is a small tutorial for getting started with this protocol named Pretty Goog Privacy (PGP), an assymetric cryptographic tool that allows to have end to end encrypted mails despite using very mainstream services like gmail, outlook, etc. You will find several names around, like GPG, PGP, OpenPGP. I will use them interchangeably as they basically refer to the same thing.
 
 
