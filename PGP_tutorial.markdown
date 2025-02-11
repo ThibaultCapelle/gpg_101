@@ -179,6 +179,108 @@ Here is a cheat sheet for the commands you can enter with it:
 | get the fingerprint of a key | ```gpg --fingerprint [mail]``` | replace ```[mail]``` with the mail address of the key you want to investigate |
 | search for a public key on a server | ```gpg --search-keys [mail]``` | replace ```[mail]``` with the mail address of the person you want to communicate to. It will return the fingerprint of the found key(s) |
 | Receive a key from a keyserver | ```gpg --receive-keys [key_id]``` | replace ```[key_id]``` with the fingerprint of the key you want to receive, that you would tipycally have found with the ```gpg --search-keys [mail]```command above |
+| Import a public key from a file | ```gpg --import [key_file]``` | replace ```[key_file]``` with the file containing the public key you want to import in your keyring |
+| Export a public key to a file | ```gpg --export [mail] > [filename]``` | replace ```[mail]``` with the mail of the key you want to export, and ```[filename]``` by the name of the file you want to create|
 | Encrypt a file with GPG | ```gpg --encrypt --recipient [mail] --sign --armor [filename]``` | replace ```[mail]``` with the mail of a person you have the public key of, and ```[filename]``` with the file you want to encrypt. This will create another file named ```filename.asc```which is a text file containing the encrypted data.|
-| Decrypt a file with GPG | ```gpg [filename]``` | replace ```[filename]``` with the file you want to decrypt. This will create another file that is the decrypted file.|
+| Decrypt a file with GPG | ```gpg [filename]``` | replace ```[filename]``` with the file you want to decrypt. This will create another file that is the decrypted file. If you want to specify the name of the output file, you can use the option ```--output [filename]```|
 
+
+### Signing and verifying signatures with OpenPGP
+
+PGP is not only used to encrypt, but also to make "signatures" and to verify them, to check that:
+1. the sender of the message is the person you think they are, or
+2. that the file you downloaded has not been tampered with while being sent to you
+
+The signature mechanism works in the opposite way as the encryption:
+1. Your ***private key*** is used to ***sign***
+2. Your ***public key*** is used by the person receiving the message to ***verify the signature***
+
+The way it is done is the following:
+1. The file is ***hashed***.
+<div class="warning" style='padding:0.1em; background-color:#E9D8FD; color:#69337A'>
+<span>
+<p style='margin-top:1em; text-align:center'>
+<b>Hash function</b></p>
+<p style='margin-left:1em;'>
+<b>to hash</b> means applying a ***hash function***. A Hash function is a complicated function that:
+<ol>
+<li>for any file or string input returns a string of a fixed size</li>
+<li>is injective (two different inputs give two different output)</li>
+<li>is very hard to invert (two inputs that are different by only one character will give two very different outputs)</li>
+</ol>
+</p>
+</span>
+</div>
+
+2. This hashed is encrypted with your private key
+3. This is added at the end of your file, giving a ***signed*** file.
+
+
+Actually, in most case you will do both: signing (with your private key) and encrypting (with the public key of someone else). The person receiving the message will decrypt it with their private key, and then extract the signature and verify it with your public key.
+
+## Checking the integrity of a downloaded file
+
+In some case you will download something from a website and there will be a signature associated with it, like in this example from [veracrypt](https://www.veracrypt.fr/en/Downloads.html):
+
+<img src="assets/img/signature_file_example_veracrypt.png" alt="drawing" width="350"/>
+
+You can download the file, the associated signature and the public key. In the veracrypt example, the public key can be found [here](https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc). You can import it with:
+
+```console
+wget https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc && gpg --import VeraCrypt_PGP_public_key.asc
+```
+
+In the download page, they tell you to check that the fingerprint is correct:
+
+```console
+foo@bar:~ gpg --fingerprint veracrypt@idrix.fr
+pub   rsa4096 2018-09-11 [SC]
+      5069 A233 D55A 0EEB 174A  5FC3 821A CD02 680D 16DE
+uid           [ unknown] VeraCrypt Team (2018 - Supersedes Key ID=0x54DDD393) <veracrypt@idrix.fr>
+sub   rsa4096 2018-09-11 [E]
+sub   rsa4096 2018-09-11 [A]
+```
+
+and that it should be 5069 A233 D55A 0EEB 174A 5FC3 821A CD02 680D 16DE.
+Once you checked the fingerprint the public key, you can sign it with your private key to indicate that you trust it:
+
+```console
+foo@bar:~ gpg --sign-key veracrypt@idrix.fr
+pub  rsa4096/821ACD02680D16DE
+     created: 2018-09-11  expires: never       usage: SC
+     trust: unknown       validity: unknown
+sub  rsa4096/200B5A9D26878A32
+     created: 2018-09-11  expires: never       usage: E
+sub  rsa4096/0F5AACD65483D029
+     created: 2018-09-11  expires: never       usage: A
+[ unknown] (1). VeraCrypt Team (2018 - Supersedes Key ID=0x54DDD393) <veracrypt@idrix.fr>
+
+
+pub  rsa4096/821ACD02680D16DE
+     created: 2018-09-11  expires: never       usage: SC
+     trust: unknown       validity: unknown
+ Primary key fingerprint: 5069 A233 D55A 0EEB 174A  5FC3 821A CD02 680D 16DE
+
+     VeraCrypt Team (2018 - Supersedes Key ID=0x54DDD393) <veracrypt@idrix.fr>
+
+Are you sure that you want to sign this key with your
+key "my Name <my@mail.net>" (my_key_id)
+
+Really sign? (y/N) y
+```
+
+you can then check that you have the correct file by entering:
+
+```console
+foo@bar:~ gpg --verify "VeraCrypt Setup 1.26.20.exe.sig" "VeraCrypt Setup 1.26.20.exe"
+gpg: Signature made Tue 04 Feb 2025 15:53:43 CET
+gpg:                using RSA key 5069A233D55A0EEB174A5FC3821ACD02680D16DE
+gpg: checking the trustdb
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   3  signed:   1  trust: 0-, 0q, 0n, 0m, 0f, 3u
+gpg: depth: 1  valid:   1  signed:   0  trust: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: next trustdb check due at 2025-11-29
+gpg: Good signature from "VeraCrypt Team (2018 - Supersedes Key ID=0x54DDD393) <veracrypt@idrix.fr>" [full]
+```
+
+This Good signature indication tells you that you have downloaded a file that was certified as genuine by the owner of the private key associated with veracrypt, and that it has not been tampered with.
