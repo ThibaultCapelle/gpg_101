@@ -196,13 +196,16 @@ The signature mechanism works in the opposite way as the encryption:
 2. Your ***public key*** is used by the person receiving the message to ***verify the signature***
 
 The way it is done is the following:
-1. The file is ***hashed***.
+1. The file is ***hashed*** (see the paragraph below).
+2. This hashed file is encrypted with your private key
+3. The result is added at the end of your file, giving a ***signed*** file.
+
 <div class="warning" style='padding:0.1em; background-color:#E9D8FD; color:#69337A'>
 <span>
 <p style='margin-top:1em; text-align:center'>
 <b>Hash function</b></p>
 <p style='margin-left:1em;'>
-<b>to hash</b> means applying a ***hash function***. A Hash function is a complicated function that:
+<b>to hash</b> means applying a <b>hash function</b>. A hash function is a complicated function that:
 <ol>
 <li>for any file or string input returns a string of a fixed size</li>
 <li>is injective (two different inputs give two different output)</li>
@@ -212,17 +215,13 @@ The way it is done is the following:
 </span>
 </div>
 
-2. This hashed is encrypted with your private key
-3. This is added at the end of your file, giving a ***signed*** file.
-
-
-Actually, in most case you will do both: signing (with your private key) and encrypting (with the public key of someone else). The person receiving the message will decrypt it with their private key, and then extract the signature and verify it with your public key.
+Actually, in most case you will do both: signing (with your private key) then encrypting (with the public key of someone else). The person receiving the message will decrypt it with their private key, and then extract the signature and verify it with your public key.
 
 ## Checking the integrity of a downloaded file
 
-In some case you will download something from a website and there will be a signature associated with it, like in this example from [veracrypt](https://www.veracrypt.fr/en/Downloads.html):
+In some case you will download something from a website and there will be a signature associated with it, like in this example from the software [veracrypt](https://www.veracrypt.fr/en/Downloads.html):
 
-<img src="assets/img/signature_file_example_veracrypt.png" alt="drawing" width="350"/>
+<img src="assets/img/signature_file_example_veracrypt.png" alt="drawing" width="800"/>
 
 You can download the file, the associated signature and the public key. In the veracrypt example, the public key can be found [here](https://www.idrix.fr/VeraCrypt/VeraCrypt_PGP_public_key.asc). You can import it with:
 
@@ -284,3 +283,22 @@ gpg: Good signature from "VeraCrypt Team (2018 - Supersedes Key ID=0x54DDD393) <
 ```
 
 This Good signature indication tells you that you have downloaded a file that was certified as genuine by the owner of the private key associated with veracrypt, and that it has not been tampered with.
+
+## Signing a document
+
+With the command line, you can sign a document with ```gpg --sign [filename]``` to output a signed document or ```gpg --detach-sign [filename]``` to output only the signature.
+
+## Sign the public key of someone
+
+GPG is a lot based on the trust that you are talking to the right person. Therefore, to tell to the whole world that you trust some public key, you should ***sign the public keys*** of other people.
+
+This is how to do it (as recommended [here](https://gist.github.com/F21/b0e8c62c49dfab267ff1d0c6af39ab84)):
+
+1. Alice (you) get the public key of Bob
+2. Alice sign it with her private key: ```gpg --sign-key [key_id]``` where ```[key_id]``` is the fingereprint of the Bob public key. In the process you will be asked to check that the fingerprint match with the key of the other person, which you should do in a secure channel, or in person, with the person owning the key.
+3. Alice exports, then encrypts the signed key with Bob public key, with the following command: ```gpg --armor --export [key_id] | gpg --sign --encrypt -r [key_id] > [filename]```, where ```[key_id]```is the fingereprint of Bob public key and ```[filename]```is the output filename
+4. Alice email the key to Bob using the mail adress associated with the key
+5. Bob receives it, then decrypt it with his private key and import it: ```gpg --decrypt [filename]``` and then ```gpg --import [filename_decrypted]```
+6. He can then send it to a keyserver, containing Alice signature: ```gpg --send_keys [key_id]```
+
+
